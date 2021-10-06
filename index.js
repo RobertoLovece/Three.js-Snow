@@ -1,10 +1,13 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
+import Particle from './src/particle';
+import {SIZE, HEIGHT, RESOLUTION} from './src/const.js'
 
 //
 
-import Shape from './src/utilities/shape.js';
+import vertex from "./src/shader/vertexShader.glsl";
+import fragment from "./src/shader/fragmentShader.glsl";
 
 //
 
@@ -14,8 +17,9 @@ require("./src/css/index.css");
 //
 
 let scene, camera, renderer;
-let controls, container, shapes;
-let stats;
+let controls, container, stats;
+let plane, snow, geometry, material, particles, position;
+let clock = new THREE.Clock();
 
 //
 
@@ -24,7 +28,8 @@ window.onload = function () {
     initScene();
     initStats();
 
-    initObjects();
+    initPlane();
+    initSnow();
     initControls();
 
     animate();
@@ -77,17 +82,65 @@ function initStats() {
 
 //
 
-function initObjects() {
+function initPlane() {
 
-    shapes = [];
+    let pGeometry = new THREE.PlaneBufferGeometry(SIZE, SIZE, RESOLUTION, RESOLUTION);
+    let pMaterial = new THREE.MeshNormalMaterial({
+        side: THREE.DoubleSide
+    });
 
-    shapes.push(
-        new Shape(0, 0, 2)
+    plane = new THREE.Mesh(pGeometry, pMaterial);
+    plane.rotation.set(-Math.PI / 2, 0, 0);
+
+    scene.add(plane);
+
+}
+
+function initSnow() {
+
+    particles = [];
+
+    const numberOfParticles = 2000;
+
+    geometry = new THREE.BufferGeometry();
+
+    position = new Float32Array(numberOfParticles * 3);
+
+    var x, y, z, particle;
+
+    for (let i = 0 ; i < numberOfParticles ; i++) {
+        // x y z
+
+        x = getRandomRange(-SIZE/2, SIZE/2);
+        y = getRandomRange(0.2, HEIGHT);
+        z = getRandomRange(-SIZE/2, SIZE/2);
+
+        position[i * 3] = x;
+        position[(i * 3) + 1] = y;
+        position[(i * 3) + 2] = z;
+
+        particle = new Particle(x, y, z);     
+        
+        particles.push(particle);
+    };
+
+    geometry = new THREE.BufferGeometry().setAttribute(
+        "position",
+        new THREE.BufferAttribute(position, 3)
     );
 
-    shapes.forEach(function (shape) {
-        scene.add(shape);
+    material = new THREE.ShaderMaterial({
+        vertexShader: vertex,
+        fragmentShader: fragment,
+        uniforms: {
+            u_time: { value: 0 } 
+        }
     });
+
+    snow = new THREE.Points(geometry, material);
+
+    scene.add(snow);
+
 }
 
 //
@@ -107,14 +160,26 @@ function initControls() {
 function animate() {
     requestAnimationFrame(animate);
 
-    shapes.forEach(function (shape) {
-        shape.update();
-    });
-
     controls.update();
     stats.update();
 
+    material.uniforms.u_time.value += clock.getDelta();
+    // geometry.attributes.position.needUpdate = true;
+
+    particles.forEach(function(particle, i) {
+        particle.updatePosition();
+        position.set([particle.pos.x, particle.pos.y, particle.pos.z], i * 3);
+    });
+
+    geometry.attributes.position.needsUpdate = true;
+
     renderer.render(scene, camera);
+}
+
+//
+
+function getRandomRange(min, max) {
+    return Math.random() * (max - min) + min;
 }
 
 //
@@ -142,5 +207,5 @@ function onWindowResize() {
 //
 
 function onClick(e) {
-    console.log(geometry.attributes.normal);
+    console.log(geometry.attributes.position);
 }   
