@@ -105,6 +105,7 @@ function initSnow() {
     geometry = new THREE.BufferGeometry();
 
     position = new Float32Array(numberOfParticles * 3);
+    var rands = new Float32Array(numberOfParticles);
 
     var x, y, z, particle;
 
@@ -119,14 +120,21 @@ function initSnow() {
         position[(i * 3) + 1] = y;
         position[(i * 3) + 2] = z;
 
-        particle = new Particle(x, y, z);     
+        particle = new Particle(x, y, z);   
         
         particles.push(particle);
+
+        rands[i] = getRandomRange(0.5, 2);
     };
 
-    geometry = new THREE.BufferGeometry().setAttribute(
+    geometry.setAttribute(
         "position",
         new THREE.BufferAttribute(position, 3)
+    );
+
+    geometry.setAttribute(
+        "rands",
+        new THREE.BufferAttribute(rands, 1)
     );
 
     material = new THREE.ShaderMaterial({

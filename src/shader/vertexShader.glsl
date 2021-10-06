@@ -1,5 +1,6 @@
 varying vec3 vUv;
 uniform float u_time;
+attribute float rands;
 
 void main() {
 
@@ -7,6 +8,6 @@ void main() {
 
     vec4 modelViewPosition = modelViewMatrix * vec4( p, 1.0 );
 
-    gl_PointSize = 2.;
+    gl_PointSize = rands;
     gl_Position = ( projectionMatrix * modelViewPosition );
 }
