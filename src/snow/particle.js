@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {SIZE, HEIGHT} from './const.js'
+import {SIZE, HEIGHT} from '../const.js'
 
 export default class Particle extends THREE.Object3D{
     constructor(x, y, z) {
