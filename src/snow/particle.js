@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {SIZE, HEIGHT} from '../const.js'
+import {SIZE, HEIGHT, OFFSETX, OFFSETZ} from '../const.js'
 
 export default class Particle extends THREE.Object3D{
     constructor(x, y, z) {
@@ -21,9 +21,8 @@ export default class Particle extends THREE.Object3D{
 
         // x
 
-        // add a offset to size/2 so you can see particles disapear
-        var offsetX = Number(this.pos.x > SIZE/2);
-        this.pos.x -= offsetX * SIZE;
+        var offsetX = Number(this.pos.x > (SIZE/2) + (OFFSETX/2));
+        this.pos.x -= offsetX * (SIZE + OFFSETX);
         this.pos.x += Math.sin(this.velX); // should times this by a random offset multiplier 
 
         // y
@@ -33,8 +32,8 @@ export default class Particle extends THREE.Object3D{
         this.pos.y -= this.gravity; 
 
         // z
-        var offsetZ = Number(this.pos.z > SIZE/2);
-        this.pos.z -= offsetZ * SIZE;
+        var offsetZ = Number(this.pos.z > (SIZE/2) + (OFFSETZ/2));
+        this.pos.z -= offsetZ * (SIZE + OFFSETZ);
         this.pos.z += Math.sin(this.velZ); 
 
     }

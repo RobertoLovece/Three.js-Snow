@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import Snow from './src/snow/snow.js';
-import {SIZE, RESOLUTION} from './src/const.js'
+import {SIZE, RESOLUTIONX, RESOLUTIONZ} from './src/const.js'
 
 //
 
@@ -14,6 +14,7 @@ require("./src/css/index.css");
 let scene, camera, renderer;
 let controls, container, stats;
 let plane, snow;
+
 let clock = new THREE.Clock();
 
 //
@@ -78,12 +79,12 @@ function initStats() {
 
 function initObjects() {
 
-    let pGeometry = new THREE.PlaneBufferGeometry(SIZE, SIZE, RESOLUTION, RESOLUTION);
-    let pMaterial = new THREE.MeshNormalMaterial({
+    let geometry = new THREE.PlaneBufferGeometry(SIZE, SIZE, RESOLUTIONX, RESOLUTIONZ);
+    let material = new THREE.MeshNormalMaterial({
         side: THREE.DoubleSide
     });
 
-    plane = new THREE.Mesh(pGeometry, pMaterial);
+    plane = new THREE.Mesh( geometry, material );
     plane.rotation.set(-Math.PI / 2, 0, 0);
 
     scene.add(plane);

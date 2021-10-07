@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import Particle from './particle.js';
-import {SIZE, HEIGHT, NUMBEROFPARTICLES} from '../const.js'
+import {SIZE, HEIGHT, OFFSETX, OFFSETZ, NUMBEROFPARTICLES} from '../const.js'
 
 //
 
@@ -32,9 +32,9 @@ export default class Snow extends THREE.Points {
         for (let i = 0 ; i < NUMBEROFPARTICLES ; i++) {
             // x y z
     
-            x = this.getRandomRange(-SIZE/2, SIZE/2);
+            x = this.getRandomRange((-SIZE/2) - (OFFSETX / 2), (SIZE/2) + (OFFSETX / 2));
             y = this.getRandomRange(0.2, HEIGHT);
-            z = this.getRandomRange(-SIZE/2, SIZE/2);
+            z = this.getRandomRange((-SIZE/2) - (OFFSETZ / 2), (SIZE/2) + (OFFSETZ / 2));
     
             position[i * 3] = x;
             position[(i * 3) + 1] = y;
