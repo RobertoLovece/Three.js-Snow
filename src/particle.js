@@ -21,7 +21,7 @@ export default class Particle extends THREE.Object3D{
 
         // x
 
-        // replace variables with constants
+        // add a offset to size/2 so you can see particles disapear
         var offsetX = Number(this.pos.x > SIZE/2);
         this.pos.x -= offsetX * SIZE;
         this.pos.x += Math.sin(this.velX); // should times this by a random offset multiplier 

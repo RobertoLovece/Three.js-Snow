@@ -61,8 +61,8 @@ function initScene() {
 
     container.appendChild(renderer.domElement);
 
-    camera.position.z = 5;
-    camera.position.x = 4;
+    camera.position.z = 3;
+    camera.position.x = 3;
     camera.position.y = 3;
     camera.lookAt(0,0,0)
 
@@ -100,7 +100,7 @@ function initSnow() {
 
     particles = [];
 
-    const numberOfParticles = 2000;
+    const numberOfParticles = 5000;
 
     geometry = new THREE.BufferGeometry();
 
@@ -124,7 +124,7 @@ function initSnow() {
         
         particles.push(particle);
 
-        rands[i] = getRandomRange(0.5, 2);
+        rands[i] = getRandomRange(2, 4);
     };
 
     geometry.setAttribute(
