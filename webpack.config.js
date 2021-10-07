@@ -6,7 +6,8 @@ module.exports = {
  	mode: 'development',
 
   	entry: {
-		index: './index.js',
+		// index: './index.js',
+		index: './src/fog/fog.js',
 		//print: './src/print.js',
  	},
  	output: {

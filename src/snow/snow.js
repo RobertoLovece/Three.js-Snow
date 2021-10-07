@@ -6,7 +6,6 @@ import {SIZE, HEIGHT, NUMBEROFPARTICLES} from '../const.js'
 
 import vertex from './shader/vertexShader.glsl';
 import fragment from './shader/fragmentShader.glsl';
-import { Clock } from 'three';
 
 //
 
@@ -76,10 +75,6 @@ export default class Snow extends THREE.Points {
 
     }
 
-    getRandomRange(min, max) {
-        return Math.random() * (max - min) + min;
-    }
-
     update(delta) {
 
         this.material.uniforms.u_time.value += delta;
@@ -94,6 +89,10 @@ export default class Snow extends THREE.Points {
 
         this.geometry.attributes.position.needsUpdate = true;
 
+    }
+
+    getRandomRange(min, max) {
+        return Math.random() * (max - min) + min;
     }
 }
 

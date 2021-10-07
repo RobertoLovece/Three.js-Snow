@@ -112,19 +112,14 @@ function initControls() {
 function animate() {
     requestAnimationFrame(animate);
 
+    let delta = clock.getDelta();
+
     controls.update();
     stats.update();
 
-    let delta = clock.getDelta();
     snow.update(delta);
 
     renderer.render(scene, camera);
-}
-
-//
-
-function getRandomRange(min, max) {
-    return Math.random() * (max - min) + min;
 }
 
 //
